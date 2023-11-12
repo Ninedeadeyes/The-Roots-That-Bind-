@@ -8,6 +8,8 @@ walls=30
 thorns=50
 
 winsound.PlaySound(".\\music\\Roots.wav",  winsound.SND_ALIAS | winsound.SND_ASYNC +winsound.SND_LOOP)
+os.system("mode con cols=70 lines=35")
+
 
 class Player:
   def __init__(self, x, y):
@@ -125,7 +127,7 @@ class Game:
   def add_random_walls(self, num_walls):
       for _ in range(num_walls):
           x = random.randint(1, 20)
-          y = random.randint(1, 19)
+          y = random.randint(1, 18)
           self.grid[y][x] = '#'
 
   def add_random_door(self):
@@ -157,9 +159,9 @@ class Game:
            winsound.PlaySound(".\\music\\Hope.wav",  winsound.SND_ALIAS | winsound.SND_ASYNC +winsound.SND_LOOP)
            print("You escape the forgotten dungeon  ")
            print("No more will the roots bind you ")
-           print("      congratulations            ")
+           print("      Congratulations            ")
            input("   Press Enter to continue  ")
-           os.system('cls' if os.name == 'nt' else 'clear') # clear console screen
+           print("\033c", end="")   # clear console screen
            print("Programming by Chat Gpt 85%, Tommy Kwong 15%")
            print("Music By Tommy Kwong ")
            input("click any button to quit the game")
@@ -178,8 +180,8 @@ class Game:
   def create_new_game_state(self):
      global walls
      global thorns
-     walls+=10
-     thorns+=50
+     walls+=7
+     thorns+=55
 
      # Clear the grid of any previous wall objects
      for y in range(1, 17):
@@ -212,7 +214,7 @@ class Game:
            if cell == 'D':
                self.grid[y][x] = '.'
 
-   os.system('cls' if os.name == 'nt' else 'clear') # clear console screen
+   print("\033c", end="")   # clear console screen
    for y, row in enumerate(self.grid):
        for x, cell in enumerate(row):
            if x == self.player.x and y == self.player.y:
@@ -255,7 +257,7 @@ print("You feel a cold presence watching you in the shadows.  " )
 print("You must act swiftly before the darkness consumes.  ")
 print("                                               ")
 input("         Press Enter to continue  ")
-os.system('cls' if os.name == 'nt' else 'clear') # clear console screen
+print("\033c", end="")   # clear console screen
 
 
 print("                 The Roots that Bind                   ")
