@@ -1,5 +1,5 @@
 # The-Roots-That-Bind-
-Built using Chat GPT 85% and 15% custom code 
+Built with the help of Chat GPT. 
 
 I was wondering how much can I use Chat GPT to write a roguelike from scratch using the Standard Library and this was the result.  
 
