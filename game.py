@@ -4,18 +4,17 @@ import random
 import winsound
 
 level=1
-walls=30
-thorns=50
+walls=35
+thorns=55
 
 winsound.PlaySound(".\\music\\Roots.wav",  winsound.SND_ALIAS | winsound.SND_ASYNC +winsound.SND_LOOP)
-os.system("mode con cols=70 lines=35")
-
+os.system("mode con cols=80 lines=35")
 
 class Player:
   def __init__(self, x, y):
       self.x = x
       self.y = y
-      self.health = 40
+      self.health = 50
   
   def move(self, dx, dy, grid):
       new_x = self.x + dx
@@ -29,6 +28,7 @@ class Player:
               if self.health<251:
                   self.health += grid[new_y][new_x].value
                   print(f"You gained {grid[new_y][new_x].value} health.")
+                  print("         ")
                   
               else:
                 print("Your body is healthy but you enjoy the refreshment anyway")
@@ -36,15 +36,13 @@ class Player:
                 player.health+=15
               
               grid[new_y][new_x] = '.'
-                
-              time.sleep(.8)
-                
 
           elif isinstance(grid[new_y][new_x], Thorns):
               print("You tear away the thorns with your hands (It hurts..)")
               damage= random.randint(20,35)
               self.health -=damage
               print(f"You lose "+str(damage)+" health!")
+              print("         ")
               
               if self.health <= 0:
                   print("Wounds upon wounds you fall to the consuming darkness. ( Game over ) " )
@@ -53,8 +51,6 @@ class Player:
                   quit()
               grid[new_y][new_x] = '.'
               
-              time.sleep(.8)
-
           else:
             grid[self.y][self.x] = '.'
             self.x = new_x
@@ -66,28 +62,34 @@ class Player:
                 self.health -=damage
                 print("You feel a cold presence touching you..")
                 print("You lose "+str(damage)+" health ")
-                time.sleep(.5)
-            
+                print("         ")
+ 
             elif event == 'song':
                 print("You hear a dark melody")
                 print("The sadness cracks your very soul ")
                 damage= random.randint(1,3)
                 self.health -=damage
                 print("You lose "+str(damage)+" health ")
-                time.sleep(.6)
+                
             
             elif event == 'nothing':
                 print("Nothing happens, you struggle forward")
-                time.sleep(.5)
-
+                print("         ")
+                print("         ")
+                
             if self.health <= 0:
                 print("Wounds upon wounds you fall to the consuming darkness.( Game over ) " )
                 winsound.PlaySound(".\\music\\rip.wav",  winsound.SND_ALIAS | winsound.SND_ASYNC)
                 time.sleep(7)
                 quit()
 
+      else:
+            print("A wall blocks your path")
+            print("")
+            print("")
+      
       return True
-
+      
 class Door:
   def __init__(self, x, y):
       self.x = x
@@ -97,8 +99,7 @@ class HealthObject:
   def __init__(self, x, y):
       self.x = x
       self.y = y
-      self.value = random.randint(45, 75)
-
+      self.value = random.randint(40, 75)
 
   def __str__(self):
       return 'F'
@@ -130,40 +131,40 @@ class Game:
           y = random.randint(1, 18)
           self.grid[y][x] = '#'
 
-  def add_random_door(self):
-      while True:
-          x = random.randint(2, 19)
-          y = random.randint(17, 19)
-          if self.grid[y][x] != '#':
-              self.grid[y][x] = 'D'
-              return Door(x, y)
-
   def add_random_health_objects(self, num_objects):
       for _ in range(num_objects):
           x = random.randint(1, 20)
-          y = random.randint(1, 16)
+          y = random.randint(1, 18)
           self.grid[y][x] = HealthObject(x, y)
 
   def add_random_thorns(self, num_thorns):
       for _ in range(num_thorns):
           x = random.randint(1, 20)
-          y = random.randint(1, 16)
+          y = random.randint(1, 19)
           self.grid[y][x] = Thorns(x, y)
+
+  def add_random_door(self):
+          x = random.randint(1, 20)
+          y = random.randint(19, 20)
+          if self.grid[y][x] != '#':
+              self.grid[y][x] = 'D'
+              return Door(x, y)
 
   def check_collision(self):
      if self.player.x == self.door.x and self.player.y == self.door.y:
-       print('You go through the door.')
        global level 
        level += 1 # Increment level
        if level==5:
            winsound.PlaySound(".\\music\\Hope.wav",  winsound.SND_ALIAS | winsound.SND_ASYNC +winsound.SND_LOOP)
            print("You escape the forgotten dungeon  ")
            print("No more will the roots bind you ")
+           print("         ")
            print("      Congratulations            ")
            input("   Press Enter to continue  ")
            print("\033c", end="")   # clear console screen
-           print("Programming by Chat Gpt 85%, Tommy Kwong 15%")
+           print("Programming by Chat Gpt, Tommy Kwong ")
            print("Music By Tommy Kwong ")
+           print("         ")
            input("click any button to quit the game")
            quit()
        print('Go in any direction to continue')
@@ -176,22 +177,25 @@ class Game:
        quit()
      return True
 
-
   def create_new_game_state(self):
+     print("\033c", end="")   # clear console screen
+     print('You step through the door and climb a staircase.')
+     print('You reach another floor where the thorns have grown more feral and abundant')
+     print("It is almost like the dungeon does not want you to leave... ")
      global walls
      global thorns
      walls+=7
      thorns+=55
 
      # Clear the grid of any previous wall objects
-     for y in range(1, 17):
-         for x in range(1, 17):
+     for y in range(1, 21):
+         for x in range(1, 21):
              if self.grid[y][x] == '#' or isinstance(self.grid[y][x], HealthObject) or isinstance(self.grid[y][x], Thorns):
                 self.grid[y][x] = '.'
 
      # Generate new player
-     playerX = random.randint(1, 5)
-     playerY = random.randint(1, 5)
+     playerX = random.randint(1,20)
+     playerY = random.randint(1,3)
      old_Health=self.player.health
      self.player = Player(playerX, playerY)
      self.player.health=old_Health
@@ -214,7 +218,7 @@ class Game:
            if cell == 'D':
                self.grid[y][x] = '.'
 
-   print("\033c", end="")   # clear console screen
+   
    for y, row in enumerate(self.grid):
        for x, cell in enumerate(row):
            if x == self.player.x and y == self.player.y:
@@ -226,13 +230,14 @@ class Game:
        print()
 
   def play(self):
-    while True:
+    while True:                # clear console screen
         self.print_grid()
         if not self.check_collision():
             break
         print(f"Player's Health: {self.player.health}") # Print player's health
         print(f"Dungeon Level: {level}") # Print player's level
         key = input('Enter move (wasd): ')
+        print("\033c", end="") 
         if key == 'w':
             if not self.player.move(0, -1, self.grid):
                break
@@ -247,10 +252,12 @@ class Game:
                break
         else:
             print('Invalid move')
-            time.sleep(0.6) # pause for 0.1 seconds
+            print('')
+            print('')
             self.check_collision()
 
 print("                 The Roots that Bind                   ")
+print("                                               ")
 print("You wake up in a derelict dungeon. You see only overgrown thorns   " )
 print("and crumbling walls surrounding you. " )
 print("You feel a cold presence watching you in the shadows.  " )
@@ -258,13 +265,16 @@ print("You must act swiftly before the darkness consumes.  ")
 print("                                               ")
 input("         Press Enter to continue  ")
 print("\033c", end="")   # clear console screen
-
-
 print("                 The Roots that Bind                   ")
+print("                                               ")
 print("           T=Thorns, F=Health, D=Door, #=Wall         ")
 print("           After every movement press 'enter' ")
 print("                                               ")
 input("               Press Enter to continue  ")
+print("\033c", end="") 
+print("         ")
+print("         ")
+print("         ")
 
 playerX = random.randint(1, 5)
 playerY = random.randint(1, 5)
