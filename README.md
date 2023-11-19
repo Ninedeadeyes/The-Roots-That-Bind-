@@ -16,7 +16,7 @@ As well as 'minor' elements of resource management and tactical challenge
 
 Video below 
 
-https://youtu.be/VoKU2ReZ5Xw?si=8RfzWZInZ5_pmn4n
+https://youtu.be/71ILwoYH-1E?si=jBV9Q_yHyTinMJlq
 
 
 *Most virus checker will think that the exe is a virus but it is just the way it was converted using pyinstaller. 
