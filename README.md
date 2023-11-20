@@ -1,7 +1,7 @@
 # The-Roots-That-Bind-
 Built with the help of Chat GPT. 
 
-I was wondering how much can I use Chat GPT to write a roguelike from scratch using the Standard Library and this was the result.  
+Probably the most 'Roguelike' game I can build using Python standard Library. 
 
 Roguelike elements ( according to Berlin Interpretation ) 
 
