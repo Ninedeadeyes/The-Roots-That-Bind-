@@ -141,20 +141,20 @@ class Game:
       for _ in range(num_thorns):
           x = random.randint(1, 20)
           y = random.randint(1, 19)
-          self.grid[y][x] = Thorns(x, y)
+          if self.grid[y][x]!='D':
+              self.grid[y][x] = Thorns(x, y)
 
   def add_random_door(self):
           x = random.randint(1, 20)
           y = random.randint(19, 20)
-          if self.grid[y][x] != '#':
-              self.grid[y][x] = 'D'
-              return Door(x, y)
+          self.grid[y][x] = 'D'
+          return Door(x, y)
 
   def check_collision(self):
      if self.player.x == self.door.x and self.player.y == self.door.y:
        global level 
        level += 1 # Increment level
-       if level==5:
+       if level==6:
            winsound.PlaySound(".\\music\\Hope.wav",  winsound.SND_ALIAS | winsound.SND_ASYNC +winsound.SND_LOOP)
            print("You escape the forgotten dungeon  ")
            print("No more will the roots bind you ")
@@ -268,6 +268,7 @@ print("\033c", end="")   # clear console screen
 print("                 The Roots that Bind                   ")
 print("                                               ")
 print("           T=Thorns, F=Health, D=Door, #=Wall         ")
+print("        Survive through 5 floors to reach the exit         ")
 print("           After every movement press 'enter' ")
 print("                                               ")
 input("               Press Enter to continue  ")
