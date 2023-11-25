@@ -3,12 +3,20 @@ import time
 import random
 import winsound
 
-level=1
-walls=35
-thorns=55
-
 winsound.PlaySound(".\\music\\Roots.wav",  winsound.SND_ALIAS | winsound.SND_ASYNC +winsound.SND_LOOP)
 os.system("mode con cols=80 lines=35")
+
+walls = 35
+thorns = 55
+level = 1
+health_object = 6
+
+class Stats:
+    def __init__(self,walls,thorns,level,health_object):
+      self.walls = walls
+      self.thorns = thorns
+      self.level =level
+      self.health_object=health_object
 
 class Player:
   def __init__(self, x, y):
@@ -33,7 +41,7 @@ class Player:
               else:
                 print("Your body is healthy but you enjoy the refreshment anyway")
                 print("You gain 15 health.")
-                player.health+=15
+                self.health+=15
               
               grid[new_y][new_x] = '.'
 
@@ -113,17 +121,18 @@ class Thorns:
      return 'T'
 
 class Game:
-  def __init__(self, player):
+  def __init__(self, player,stats):
       self.player = player
+      self.stats=stats
       self.grid = [['#' for _ in range(22)] for _ in range(22)]
       for i in range(1, 21):
           for j in range(1, 21):
               self.grid[i][j] = '.'
       self.grid[5][5] = '#'
-      self.add_random_walls(walls)
+      self.add_random_walls(self.stats.walls)
       self.door = self.add_random_door()
       self.add_random_health_objects(5)
-      self.add_random_thorns(thorns)
+      self.add_random_thorns(self.stats.thorns)
 
   def add_random_walls(self, num_walls):
       for _ in range(num_walls):
@@ -140,7 +149,7 @@ class Game:
   def add_random_thorns(self, num_thorns):
       for _ in range(num_thorns):
           x = random.randint(1, 20)
-          y = random.randint(1, 19)
+          y = random.randint(1, 20)
           if self.grid[y][x]!='D':
               self.grid[y][x] = Thorns(x, y)
 
@@ -152,9 +161,8 @@ class Game:
 
   def check_collision(self):
      if self.player.x == self.door.x and self.player.y == self.door.y:
-       global level 
-       level += 1 # Increment level
-       if level==6:
+       self.stats.level += 1 # Increment level
+       if self.stats.level==6:
            winsound.PlaySound(".\\music\\Hope.wav",  winsound.SND_ALIAS | winsound.SND_ASYNC +winsound.SND_LOOP)
            print("You escape the forgotten dungeon  ")
            print("No more will the roots bind you ")
@@ -182,10 +190,8 @@ class Game:
      print('You step through the door and climb a staircase.')
      print('You reach another floor where the thorns have grown more feral and abundant')
      print("It is almost like the dungeon does not want you to leave... ")
-     global walls
-     global thorns
-     walls+=7
-     thorns+=55
+     self.stats.walls+=7
+     self.stats.thorns+=55
 
      # Clear the grid of any previous wall objects
      for y in range(1, 21):
@@ -194,19 +200,16 @@ class Game:
                 self.grid[y][x] = '.'
 
      # Generate new player
-     playerX = random.randint(1,20)
-     playerY = random.randint(1,3)
-     old_Health=self.player.health
-     self.player = Player(playerX, playerY)
-     self.player.health=old_Health
-     
+     self.player.x = random.randint(1,20)
+     self.player.y = random.randint(1,3)
+
      # Generate new door
      self.door = self.add_random_door()
 
      # Generate new walls
-     self.add_random_walls(walls)
-     self.add_random_health_objects(7)
-     self.add_random_thorns(thorns)
+     self.add_random_walls(self.stats.walls)
+     self.add_random_health_objects(self.stats.health_object)
+     self.add_random_thorns(self.stats.thorns)
 
      self.print_grid()
      self.check_collision()
@@ -235,7 +238,8 @@ class Game:
         if not self.check_collision():
             break
         print(f"Player's Health: {self.player.health}") # Print player's health
-        print(f"Dungeon Level: {level}") # Print player's level
+        print(f"Dungeon Level: {self.stats.level}") # Print player's level
+        print(str(self.stats.thorns)+" "+str(self.stats.walls)+" "+str(self.stats.health_object)) # Print player's level
         key = input('Enter move (wasd): ')
         print("\033c", end="") 
         if key == 'w':
@@ -280,5 +284,6 @@ print("         ")
 playerX = random.randint(1, 5)
 playerY = random.randint(1, 5)
 player = Player(playerX, playerY)
-game = Game(player)
+stats = Stats(walls,thorns,level,health_object)
+game = Game(player,stats)
 game.play()
