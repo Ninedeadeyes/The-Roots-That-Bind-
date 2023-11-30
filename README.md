@@ -1,5 +1,5 @@
 # The-Roots-That-Bind-
-Built with the help of Chat GPT. 
+Built with the help of Chat GPT ( Phind ) 
 
 Probably the most 'Roguelike' game I can build using Python standard Library. 
 
