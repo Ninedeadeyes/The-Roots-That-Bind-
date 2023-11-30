@@ -6,11 +6,6 @@ import winsound
 winsound.PlaySound(".\\music\\Roots.wav",  winsound.SND_ALIAS | winsound.SND_ASYNC +winsound.SND_LOOP)
 os.system("mode con cols=80 lines=35")
 
-walls = 35
-thorns = 55
-level = 1
-health_object = 6
-
 class Stats:
     def __init__(self,walls,thorns,level,health_object):
       self.walls = walls
@@ -128,10 +123,9 @@ class Game:
       for i in range(1, 21):
           for j in range(1, 21):
               self.grid[i][j] = '.'
-      self.grid[5][5] = '#'
       self.add_random_walls(self.stats.walls)
       self.door = self.add_random_door()
-      self.add_random_health_objects(5)
+      self.add_random_health_objects(self.stats.health_object)
       self.add_random_thorns(self.stats.thorns)
 
   def add_random_walls(self, num_walls):
@@ -239,7 +233,6 @@ class Game:
             break
         print(f"Player's Health: {self.player.health}") # Print player's health
         print(f"Dungeon Level: {self.stats.level}") # Print player's level
-        print(str(self.stats.thorns)+" "+str(self.stats.walls)+" "+str(self.stats.health_object)) # Print player's level
         key = input('Enter move (wasd): ')
         print("\033c", end="") 
         if key == 'w':
@@ -284,6 +277,6 @@ print("         ")
 playerX = random.randint(1, 5)
 playerY = random.randint(1, 5)
 player = Player(playerX, playerY)
-stats = Stats(walls,thorns,level,health_object)
+stats = Stats(35,55,1,6)   #stat(walls,thorns,level,health_object)
 game = Game(player,stats)
 game.play()
