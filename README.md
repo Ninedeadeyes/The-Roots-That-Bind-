@@ -22,3 +22,7 @@ https://youtu.be/71ILwoYH-1E?si=jBV9Q_yHyTinMJlq
 *Most virus checker will think that the exe is a virus but it is just the way it was converted using pyinstaller. 
 
 https://stackoverflow.com/questions/43777106/program-made-with-pyinstaller-now-seen-as-a-trojan-horse-by-avg
+
+Check out my other Python Games at
+
+https://ninedeadeyes.github.io/Python-Game-Gallery/
