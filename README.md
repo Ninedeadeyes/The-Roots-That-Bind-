@@ -5,11 +5,11 @@ Probably the most 'Roguelike' game I can build using Python standard Library.
 
 Roguelike elements ( according to Berlin Interpretation ) 
 
-Random environment generation
-Permadeath
-Turn-based
-Grid-based
-ASCII display
+Random environment generation,
+Permadeath, 
+Turn-based, 
+Grid-based, 
+ASCII display and  
 Single player character
 
 As well as 'minor' elements of resource management and tactical challenge 
